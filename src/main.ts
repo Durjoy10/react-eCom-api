@@ -1,11 +1,12 @@
-import { NestFactory } from '@nestjs/core';
 import { ValidationPipe } from '@nestjs/common';
-import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { NestFactory } from '@nestjs/core';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { AdminService } from './admin/admin.service';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
+
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors();
 
@@ -18,6 +19,10 @@ async function bootstrap() {
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+
+  // Initialize the first super admin
+  const adminService = app.get(AdminService);
+  await adminService.createFirstSuperAdmin();
 
   await app.listen(3000);
 }
