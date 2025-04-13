@@ -7,4 +7,4 @@ import { WishlistService } from './wishlist.service';
   providers: [WishlistService],
   exports: [WishlistService]
 })
-export class WishlistModule {}
+export class WishlistModule { }

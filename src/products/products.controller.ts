@@ -1,14 +1,14 @@
-import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
-import { ProductsService } from './products.service';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/auth.guard';
-import { ApiTags, ApiBearerAuth } from '@nestjs/swagger';
+import { ProductsService } from './products.service';
 
 @ApiTags('products')
 @Controller('products')
 @UseGuards(AuthGuard)
 @ApiBearerAuth()
 export class ProductsController {
-  constructor(private readonly productsService: ProductsService) {}
+  constructor(private readonly productsService: ProductsService) { }
 
   @Get()
   async findAll() {

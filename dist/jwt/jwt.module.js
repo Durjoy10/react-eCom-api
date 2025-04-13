@@ -6,22 +6,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthModule = void 0;
+exports.JwtGlobalModule = void 0;
 const common_1 = require("@nestjs/common");
-const users_module_1 = require("../users/users.module");
-const auth_controller_1 = require("./auth.controller");
-const auth_service_1 = require("./auth.service");
-let AuthModule = class AuthModule {
+const jwt_1 = require("@nestjs/jwt");
+const jwt_config_1 = require("../config/jwt.config");
+let JwtGlobalModule = class JwtGlobalModule {
 };
-exports.AuthModule = AuthModule;
-exports.AuthModule = AuthModule = __decorate([
+exports.JwtGlobalModule = JwtGlobalModule;
+exports.JwtGlobalModule = JwtGlobalModule = __decorate([
+    (0, common_1.Global)(),
     (0, common_1.Module)({
-        imports: [
-            (0, common_1.forwardRef)(() => users_module_1.UsersModule),
-        ],
-        controllers: [auth_controller_1.AuthController],
-        providers: [auth_service_1.AuthService],
-        exports: [auth_service_1.AuthService]
+        imports: [jwt_1.JwtModule.register(jwt_config_1.jwtConfig)],
+        exports: [jwt_1.JwtModule],
     })
-], AuthModule);
-//# sourceMappingURL=auth.module.js.map
+], JwtGlobalModule);
+//# sourceMappingURL=jwt.module.js.map
