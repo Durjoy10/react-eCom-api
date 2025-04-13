@@ -13,6 +13,7 @@ exports.AdminAuthGuard = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
+const admin_schema_1 = require("../schemas/admin.schema");
 let AdminAuthGuard = class AdminAuthGuard {
     constructor(jwtService, configService) {
         this.jwtService = jwtService;
@@ -28,12 +29,12 @@ let AdminAuthGuard = class AdminAuthGuard {
             const payload = await this.jwtService.verifyAsync(token, {
                 secret: this.configService.get('JWT_SECRET'),
             });
-            if (!payload.role) {
+            if (!payload.role || (payload.role !== admin_schema_1.AdminRole.ADMIN && payload.role !== admin_schema_1.AdminRole.SUPER_ADMIN)) {
                 throw new common_1.UnauthorizedException('Not authorized as admin');
             }
             request['user'] = payload;
         }
-        catch {
+        catch (error) {
             throw new common_1.UnauthorizedException('Invalid authentication token');
         }
         return true;
